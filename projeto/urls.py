@@ -15,8 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Essa função 'include' do django
+    # pega as urls lá do app recipes
+    path('', include('recipes.urls'))
 ]
+
+# Para servir as imagens que são cadastradas lá
+# no django
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Essa linha o cara falou no curso que precisava 
+# ter nas versão anteriores do django e agora
+# nao precisa mais
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

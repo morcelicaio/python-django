@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<!-- Essa linha é como o django faz o include 
+     de outras partes de html na sua página 
+     princnipal. Aqui deu include no header  -->
+{% include 'recipes/partials/head.html' %}
+
+    <title>{% block title %}{% endblock title  %}Recipes</title>
+</head>
+
+<body>
+    {% include 'recipes/partials/header.html' %}
+
+    <!-- insere a barra de pesquisa -->
+    {% include 'recipes/partials/search.html' %}
+
+    <main class="main-content-container">
+        <!-- Esse block é como o djnago demarca 
+        a herança entre templates. Se um template
+        herdar desse, seu conteúdo ficará dentro
+        da demarcação 'block'.  -->
+        {% block content %} {% endblock content %}
+    </main>
+
+    {% include 'recipes/partials/footer.html' %}
+</body>
+
+</html>

@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Nossos apps são informados aqui também
+    
+    # Os apps são encontrados no
+    # arquivo apps.py  no  atributo name
+    'recipes'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +60,12 @@ ROOT_URLCONF = 'projeto.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # Isso faz o django também conseguir
+            # buscar arquivos na hierarquia da
+            # pasta base_templates
+            BASE_DIR / 'base_templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,6 +126,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'base_static',
+]
+
+# Serve para usar o comando collectstatic no django
+# para ele centralizar todos os arquivos estáticos
+# da aplicação nessa pasta 'static'.
+STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = '/media/'
+# pasta onde vão ser salvar os arquivos de media.
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

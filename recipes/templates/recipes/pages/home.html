@@ -1,0 +1,19 @@
+<!-- Essa home.html está estendendo base.html.
+ Em base.html, esse trecho div  de home.html 
+ fica dentro do escopo block  -->
+{% extends 'global/base.html' %}
+
+{% block title %}Home | {% endblock title %}
+
+{% block content %}
+    <div class="main-content main-content-list container">
+        <!-- card da receita -->
+            <!-- recipes é o parâmetro que vem do  
+            parâmetro 'context' do arq views.py-->
+                <!-- a variável recipe fica disponível dentro do 
+                 recipe.html para ser manipulada-->
+        {% for recipe in recipes  %}
+            {% include 'recipes/partials/recipe.html' %}     
+        {% endfor %}
+    </div>
+{% endblock content %}
