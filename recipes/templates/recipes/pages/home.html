@@ -12,8 +12,13 @@
             parâmetro 'context' do arq views.py-->
                 <!-- a variável recipe fica disponível dentro do 
                  recipe.html para ser manipulada-->
+
         {% for recipe in recipes  %}
-            {% include 'recipes/partials/recipe.html' %}     
-        {% endfor %}
+            {% include 'recipes/partials/recipe.html' %}       
+        {% empty %}
+        <div class="center m-y">
+            <h1>No recipes found here !</h1>
+        </div>            
+        {% endfor %}       
     </div>
 {% endblock content %}
