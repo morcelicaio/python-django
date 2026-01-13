@@ -1,6 +1,5 @@
 from django.urls import reverse, resolve
 from recipes import views
-from unittest import skip
 
             # models importa User. Então dá para chamar ele daqui também.
 #from recipes.models import Recipe
@@ -60,6 +59,18 @@ class RecipeViewsTest(RecipeTestBase):
         self.assertIn('Recipe Title', content)                        
         self.assertEqual(len(response_context_recipes), 1)
 
+        # Testa se nosso template home.html exibe o html que pertence a quando não carrega as receitas
+    def test_recipe_home_template_dont_loads_recipes_not_published(self):
+        """Teste recipe is published False dont show"""
+         
+        # Cria a receita com  is_published = False
+        self.make_recipe(is_published = False)
+
+        response = self.client.get(reverse('recipes:home'))        
+
+        # Checa se uma receita existe
+        self.assertIn('<h1>No recipes found here !</h1>', response.content.decode('utf-8'))
+
 
 
 
@@ -70,6 +81,7 @@ class RecipeViewsTest(RecipeTestBase):
         # Checa se essa url da view que está sendo resolvida é a mesma em views.category.
         # Verifica se é a mesma referência.
         self.assertIs(view.func, views.category)        
+    
     
     # Teste que verifica se a resposta da requisição é status 404
     def test_recipe_category_view_returns_404_if_no_recipes_found(self):
@@ -90,7 +102,17 @@ class RecipeViewsTest(RecipeTestBase):
         # Checa se uma receita existe
         self.assertIn(needed_title, content)        
 
+        # Testa se nosso template category.html exibe o erro 404 p/ receita não publicadas
+    def test_recipe_category_template_dont_loads_recipes_not_published(self):
+        """Teste recipe is published False dont show"""
+         
+        # Cria a receita com  is_published = False
+        recipe = self.make_recipe(is_published = False)
 
+        response = self.client.get(reverse('recipes:recipe', kwargs = { 'id': recipe.category.id }))    
+
+        # Checa se uma receita existe
+        self.assertEqual(response.status_code, 404)
 
 
     def test_recipe_detail_view_function_is_correct(self):                
@@ -119,4 +141,14 @@ class RecipeViewsTest(RecipeTestBase):
         # Checa se uma receita existe
         self.assertIn(needed_title, content)     
 
-    
+        # Testa se nosso template category.html exibe o erro 404 p/ receita não publicadas
+    def test_recipe_detail_template_dont_loads_recipe_not_published(self):
+        """Teste recipe is published False dont show"""
+         
+        # Cria a receita com  is_published = False
+        recipe = self.make_recipe(is_published = False)
+
+        response = self.client.get(reverse('recipes:recipe', kwargs = { 'id': recipe.id }))    
+
+        # Checa se uma receita existe
+        self.assertEqual(response.status_code, 404)
