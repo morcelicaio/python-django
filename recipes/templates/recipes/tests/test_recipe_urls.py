@@ -24,3 +24,9 @@ class RecipeURLsTest(TestCase):
     def test_recipe_deail_url_is_correct(self):
         url = reverse('recipes:recipe', args=(1,))
         self.assertEqual(url, '/recipes/1/')
+
+
+    # Aqui a url é passada por query string.
+    def test_recipe_search_url_is_correct(self):
+        url = reverse('recipes:search')
+        self.assertEqual(url, '/recipes/search/')

@@ -1,7 +1,7 @@
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 
-from utils.recipes.factory import make_recipe
 
 from recipes.models import Recipe
 
@@ -58,3 +58,30 @@ def recipe(request, id):
                   context={'recipe': recipe,
                            'is_detail_page': True,
                            })
+
+
+def search(request):
+    #Em .GET, caso a url não venha com o parâmetro q, isso pode estourar um erro http 500.
+    # Com .GET.get()    o .get acessa o dicionário (QueryDict: {}) que está em .GET e tentar procurar ['q'].
+    # Se não houver essa chave é retornado None e esse None é possível tratar aqui. 
+    search_term = request.GET.get('q', '').strip() # strip remove espaços em branco(ou outros caracs) d início e d fim de 1 str.
+
+    # Se não houver nada em search_term, ou seja, se for None.
+    if not search_term:
+        raise Http404()
+
+    recipes = Recipe.objects.filter(
+        # title__contains   isso faz uma busca  usando LIKE na base de dados.
+        Q(
+            Q(title__contains = search_term) | Q(description__contains = search_term)
+        ),
+        is_published = True
+        #Q é uma biblioteca do django que serve para avisar ao framework que isso é uma consulta OR no BD   usa-se o |
+        # Em is_published   ele faz um AND. 
+    ).order_by('-id')            
+
+    return render(request, 'recipes/pages/search.html', { 
+        'page_title': f'Search for "{ search_term }" |', 
+        'recipes': recipes,
+        'search_term': search_term 
+    })
