@@ -51,7 +51,7 @@ class RecipeSearchViewsTest(RecipeTestBase):
         recipe2 = self.make_recipe(
             slug = 'two', title = title2, author_data = { 'username': 'two' }
         )
-
+        
         search_url = reverse('recipes:search')
         response1 = self.client.get(f'{ search_url }?q={ title1 }')     # busca pelo título
         response2 = self.client.get(f'{ search_url }?q={ title2 }')     # busca pelo título

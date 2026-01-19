@@ -6,16 +6,16 @@
 <!-- Essa linha é como o django faz o include 
      de outras partes de html na sua página 
      princnipal. Aqui deu include no header  -->
-{% include 'recipes/partials/head.html' %}
+{% include 'global/partials/head.html' %}
 
     <title>{% block title %}{% endblock title  %}Recipes</title>
 </head>
 
 <body>
-    {% include 'recipes/partials/header.html' %}
+    {% include 'global/partials/header.html' %}
 
     <!-- insere a barra de pesquisa -->
-    {% include 'recipes/partials/search.html' %}
+    {% include 'global/partials/search.html' %}
 
     <main class="main-content-container">
         <!-- Esse block é como o djnago demarca 
@@ -23,9 +23,11 @@
         herdar desse, seu conteúdo ficará dentro
         da demarcação 'block'.  -->
         {% block content %} {% endblock content %}
+        
+        {% include 'global/partials/pagination.html' %}
     </main>
 
-    {% include 'recipes/partials/footer.html' %}
+    {% include 'global/partials/footer.html' %}
 </body>
 
 </html>

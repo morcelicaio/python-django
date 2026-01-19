@@ -24,7 +24,9 @@ urlpatterns = [
 
     # Essa função 'include' do django
     # pega as urls lá do app recipes
-    path('', include('recipes.urls'))
+    path('', include('recipes.urls')),
+    
+    path('authors/', include('authors.urls')),
 ]
 
 # Para servir as imagens que são cadastradas lá
